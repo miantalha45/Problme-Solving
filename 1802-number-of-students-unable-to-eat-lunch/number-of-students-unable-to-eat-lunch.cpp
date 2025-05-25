@@ -1,37 +1,26 @@
 class Solution {
 public:
     int countStudents(vector<int>& students, vector<int>& sandwiches) {
-        queue<int> que;
-        stack<int> stk;
-        int count = 0;
+        int count0 = 0, count1 = 0;
 
-        for(int j = sandwiches.size() - 1; j >= 0; j--)
+        for(int s : students)
         {
-            stk.push(sandwiches[j]);
-        }
-
-        for(int q : students)
-        {
-            que.push(q);
-        }
-
-        int i = 0;
-        while(i < que.size())
-        {
-            if(!que.empty() && (que.front() == stk.top()))
+            if(s == 0)
             {
-                que.pop();
-                stk.pop();
-                count++;
-                i = 0;
+                count0++;
             }
             else{
-                que.push(que.front());
-                que.pop();
-                i++;
+                count1++;
             }
         }
 
-        return students.size() - count;
+        for(int n : sandwiches)
+        {
+            if(n == 0 && count0 > 0) count0--;
+            else if(n == 1 && count1 > 0) count1--;
+            else break;
+        }
+
+        return count0 + count1;
     }
 };
