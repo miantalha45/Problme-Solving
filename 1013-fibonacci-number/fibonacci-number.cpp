@@ -1,15 +1,18 @@
 class Solution {
 public:
-    unordered_map<int, int> memo;
+    
     int fib(int n) {
         if(n <= 1)
             return n;
-        
-        if(memo.count(n) > 0)
+        int prev = 0;
+        int prev1 = 0;
+        int prev2 = 1;
+        for(int i=1; i < n; i++)
         {
-            return memo[n];
+            prev = prev2 + prev1;
+            prev1 = prev2;
+            prev2 = prev;
         }
-        memo[n] = fib(n - 1) + fib(n - 2);
-        return memo[n];
+        return prev;
     }
 };
