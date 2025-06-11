@@ -1,18 +1,17 @@
 public class Solution {
     public int ClimbStairs(int n) {
-        int[] memo = new int[n + 1];
-        return Climb(memo, n);        
-    }
-
-    private int Climb(int[] dp, int n)
-    {
         if(n<=2) return n;
-        if(dp[n] != 0)
+        int lastOne = 2;
+        int lastTwo = 1;
+        int allCount = 0;
+
+        for(int i = 3;i <= n;i++)
         {
-            return dp[n];
+            allCount = lastTwo + lastOne;
+            lastTwo = lastOne;
+            lastOne = allCount;
         }
 
-        dp[n] = Climb(dp, n - 1) + Climb(dp, n - 2);
-        return dp[n];
+        return allCount;
     }
 }
