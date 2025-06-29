@@ -1,21 +1,22 @@
 public class Solution {
     public int[] ProductExceptSelf(int[] nums) {
         int n = nums.Length;
-        int[] result = new int[n];
 
-        result[0] = 1;
-        for(int i = 1; i < n; i++)
+        int[] res = new int[n];
+        res[n - 1] = 1;
+
+        for(int i = n - 2;i >= 0;i--)
         {
-            result[i] = result[i - 1] * nums[i - 1];
+            res[i] = res[i + 1] * nums[i + 1];
         }
 
-        int rightSum = 1;
-        for (int i = n - 1; i >= 0; i--) 
+        int leftSum = 1;
+        for(int k = 0;k < n;k++)
         {
-            result[i] *= rightSum;
-            rightSum *= nums[i];
+            res[k] = res[k] * leftSum;
+            leftSum *= nums[k];
         }
 
-        return result;
+        return res;
     }
 }
