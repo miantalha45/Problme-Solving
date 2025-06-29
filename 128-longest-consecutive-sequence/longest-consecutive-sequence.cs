@@ -1,26 +1,26 @@
 public class Solution {
     public int LongestConsecutive(int[] nums) {
-        if(nums.Length == 0) return 0;
-        int count = 0;
+        if(nums.Length == 0)
+            return 0;
         
         HashSet<int> set = new HashSet<int>(nums);
-
+        int res = 0;
         foreach(int n in set)
         {
             if(!set.Contains(n - 1))
             {
-                int currentSteak = 1;
-                int currentNum = n;
-                while(set.Contains(currentNum + 1))
-                {
-                    currentSteak++;
-                    currentNum++;
-                }
+                int currNum = n;
+                int currentStreak = 1;
 
-                count = Math.Max(count, currentSteak);
+                while(set.Contains(currNum + 1))
+                {
+                    currNum += 1;
+                    currentStreak += 1;
+                }
+                res = Math.Max(res, currentStreak);
             }
         }
 
-        return count;
+        return res;
     }
 }
