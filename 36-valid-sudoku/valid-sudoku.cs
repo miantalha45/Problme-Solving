@@ -2,9 +2,9 @@ public class Solution {
     public bool IsValidSudoku(char[][] board) {
         HashSet<string> seen = new HashSet<string>();
 
-        for(int i = 0; i < 9; i++)
+        for(int i = 0;i < 9;i++)
         {
-            for(int j = 0; j < 9; j++)
+            for(int j = 0;j < 9;j++)
             {
                 char ch = board[i][j];
                 if(ch != '.')
@@ -16,8 +16,9 @@ public class Solution {
                     if(!seen.Add(rowKey) || !seen.Add(colKey) || !seen.Add(squareKey))
                         return false;
                 }
-            }
+            }         
         }
+
         return true;
     }
 }
