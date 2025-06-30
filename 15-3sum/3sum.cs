@@ -1,33 +1,42 @@
 public class Solution {
     public IList<IList<int>> ThreeSum(int[] nums) {
+        
         Array.Sort(nums);
-        List<IList<int>> result = new List<IList<int>>();
-        for(int i = 0; i < nums.Length; i++)
+
+        int n = nums.Length;
+        IList<IList<int>> res = new List<IList<int>>();
+        for(int i = 0;i < n;i++)
         {
-            if(i > 0 && nums[i] == nums[i - 1]) continue;
-            int right = nums.Length - 1, left = i + 1;
-
-            while(left < right)
+            if(i > 0 && nums[i] == nums[i - 1])
+                continue;
+            int target = -nums[i];
+            int j = i + 1, k = n - 1;
+            while(j < k)
             {
-                int sum = nums[i] + nums[left] + nums[right];
-
-                if(sum == 0)
+                int sum = nums[j] + nums[k];
+                if(sum == target)
                 {
-                    result.Add(new List<int> { nums[i], nums[left], nums[right] });
-
-                    while (left < right && nums[left] == nums[left + 1]) left++;
-                    while (left < right && nums[right] == nums[right - 1]) right--;
-
-                    left++;
-                    right--;
+                    res.Add(new int[]{nums[i], nums[j], nums[k]});
+                    j++;
+                    k--;
+                    while(j < n && nums[j] == nums[j - 1])
+                    {
+                        j++;
+                    }
+                    while(k > j && nums[k] == nums[k + 1])
+                        k--;
                 }
-                else if (sum < 0) {
-                    left++; 
-                } else {
-                    right--;
+                else if(sum > target)
+                {
+                    k--;
+                }
+                else
+                {
+                    j++;
                 }
             }
         }
-        return result;
+
+        return res;
     }
 }
