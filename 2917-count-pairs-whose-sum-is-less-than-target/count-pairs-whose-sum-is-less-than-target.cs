@@ -1,18 +1,20 @@
 public class Solution {
     public int CountPairs(IList<int> nums, int target) {
-        int n = nums.Count;
-        
         nums = nums.OrderBy(x => x).ToList();
+        int n = nums.Count;
         int count = 0;
 
-        for(int i = 0;i < n;i++)
+        int l = 0,r = n - 1;
+        while(l < r)
         {
-            for(int j = i + 1;j < n;j++)
+            if(nums[l] + nums[r] < target)
             {
-                if(nums[i] + nums[j] < target)
-                {
-                    count += 1;
-                }
+                count += r - l;
+                l++;
+            }
+            else
+            {
+                r--;
             }
         }
 
