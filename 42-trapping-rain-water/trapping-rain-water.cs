@@ -1,32 +1,48 @@
 public class Solution {
     public int Trap(int[] height) {
         int n = height.Length;
-        if(n == 0) return 0; 
-        int left = 0, right = n - 1;
-        int maxLeft = height[0], maxRight = height[n - 1];
-        int res = 0;
-        while(left < right)
+
+        int[] prefixMax = new int[n];
+        int[] suffixMax = new int[n];
+        int currPre = 0;
+        int currSuf = 0;
+        
+        int l = 0, r = n - 1;
+        while(r >= 0 && l < n)
         {
-            int water = 0;
-            if(maxRight < maxLeft)
+            if(l == 0)
             {
-                water = maxRight - height[right];
+                prefixMax[l] = 0;
+                currPre = height[l];
             }
-            else{
-                water = maxLeft - height[left];
-            }
-            if(water > 0)
-                res += water;
-            if(maxLeft < height[left])
-                maxLeft = height[left];
-            if(maxRight < height[right])
-                maxRight = height[right];
-            if(maxRight < maxLeft)
+            else
             {
-                right--;
+                prefixMax[l] = currPre;
+                currPre = Math.Max(height[l], currPre);
             }
-            else{
-                left++;
+
+            if(r == n -1)
+            {
+                suffixMax[r] = 0;
+                currSuf = height[r];
+            }
+            else
+            {
+                suffixMax[r] = currSuf;
+                currSuf = Math.Max(height[r], currSuf);
+            }
+
+            l++;
+            r--;
+        }
+
+        int res = 0;
+        for(int i = 0;i < n;i++)
+        {
+            int storedWater = Math.Min(prefixMax[i], suffixMax[i]) - height[i];
+            if(storedWater > 0)
+            {
+                res += storedWater;
             }
         }
 
