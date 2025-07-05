@@ -1,23 +1,31 @@
 public class Solution {
     public int CharacterReplacement(string s, int k) {
-        int[] charCounts = new int[26];
-    
-        int maxFreq = 0;
+        int n = s.Length;
 
-        int left = 0, maxLength = 0;
-        for(int right = 0; right < s.Length; right++)
+        if(n < 2)
+            return n;
+
+        int[] freq = new int[26];
+        
+        int l = 0;
+        int res = 0;
+        int MaxFreq = 0;
+
+        for(int r = 0;r < n;r++)
         {
-            charCounts[s[right] - 'A']++;
-            
-            maxFreq = Math.Max(maxFreq, charCounts[s[right] - 'A']);
-            while((right - left + 1) - maxFreq > k)
-            {   
-                charCounts[s[left] - 'A']--;
-                left++;
+            freq[s[r] - 'A']++;
+
+            MaxFreq = Math.Max(MaxFreq, freq[s[r] - 'A']);
+            while((r - l + 1) - MaxFreq > k)
+            {
+                freq[s[l] - 'A']--;
+                l++;
             }
 
-            maxLength = Math.Max(maxLength, (right - left + 1));
+            res = Math.Max(res, r - l + 1);
+
         }
-        return maxLength;
+
+        return res;
     }
 }
