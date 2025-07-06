@@ -1,41 +1,58 @@
 public class Solution {
     public string MinWindow(string s, string t) {
-        if (s.Length < t.Length || string.IsNullOrEmpty(t)) return "";
+        if(s.Length < t.Length)
+            return "";
+        
+        Dictionary<char, int> window = new();
+        Dictionary<char, int> tMap = new();
 
-        Dictionary<char, int> countT = new Dictionary<char, int>();
-        Dictionary<char, int> window = new Dictionary<char, int>();
-
-        foreach (char c in t) {
-            if (countT.ContainsKey(c)) countT[c]++;
-            else countT[c] = 1;
+        foreach(char c in t)
+        {
+            if(tMap.ContainsKey(c))
+            {
+                tMap[c] += 1;
+            }
+            else
+            {
+                tMap[c] = 1;
+            }
         }
 
-        int have = 0, need = countT.Count;
-        int left = 0;
+        int required = tMap.Count;
+        int formed = 0;
+        int l = 0;
         int resLen = int.MaxValue;
         int resStart = 0; 
-
-        for (int right = 0; right < s.Length; right++) {
-            char c = s[right];
-            if (window.ContainsKey(c)) window[c]++;
-            else window[c] = 1;
-
-            if (countT.ContainsKey(c) && window[c] == countT[c]) {
-                have++;
+        for(int r = 0;r < s.Length; r++)
+        {
+            char c = s[r];
+            if(tMap.ContainsKey(c))
+            {
+                if(window.ContainsKey(c)) window[c]++;
+                else window[c] = 1;
             }
 
-            while (have == need) {
-                if ((right - left + 1) < resLen) {
-                    resLen = right - left + 1;
-                    resStart = left;
-                }
+            if(tMap.ContainsKey(c) && window[c] == tMap[c])
+            {
+                formed++;
+            }
 
-                char leftChar = s[left];
-                window[leftChar]--;
-                if (countT.ContainsKey(leftChar) && window[leftChar] < countT[leftChar]) {
-                    have--;
+            while(formed == required)
+            {
+                if(resLen > (r - l + 1))
+                {
+                    resLen = r - l + 1;
+                    resStart = l;
                 }
-                left++;
+                if(tMap.ContainsKey(s[l]))
+                {
+                    window[s[l]]--;
+                    if(window[s[l]] < tMap[s[l]]) 
+                    {
+                        formed--;
+                    }
+                }
+                l++;
             }
         }
 
