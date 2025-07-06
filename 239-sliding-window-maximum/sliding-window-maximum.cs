@@ -1,10 +1,14 @@
 public class Solution {
     public int[] MaxSlidingWindow(int[] nums, int k) {
-        List<int> res = new List<int>();
-        LinkedList<int> q = new LinkedList<int>();
+        int n = nums.Length;
+        if(n == 1)
+            return nums;
 
-        int l = 0, r = 0;
-        while(r < nums.Length)
+        List<int> res = new();
+        LinkedList<int> q = new();
+
+        int l = 0;
+        for(int r = 0;r < n;r++)
         {
             while(q.Count > 0 && nums[q.Last.Value] < nums[r])
             {
@@ -17,14 +21,12 @@ public class Solution {
             {
                 q.RemoveFirst();
             }
-
+            
             if((r - l + 1) >= k)
             {
                 res.Add(nums[q.First.Value]);
-                l += 1;
+                l++;
             }
-            r += 1;
-
         }
 
         return res.ToArray();
