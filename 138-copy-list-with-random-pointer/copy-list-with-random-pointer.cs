@@ -18,39 +18,21 @@ public class Solution {
         if(head == null)
             return head;
         Dictionary<Node, Node> map = new();
-        Node newHead = new Node(head.val);
-        map[head] = newHead;
-
-        Node newTemp = newHead;
-        Node old = head.next;
-        while(old != null)
+        Node cur = head;
+        while(cur != null)
         {
-            Node n = new Node(old.val);
-            map[old] = n;
-            newTemp.next = n;
-            old = old.next;
-            newTemp = newTemp.next;
+            map[cur] = new Node(cur.val);
+            cur = cur.next;
         }
 
-        old = head;
-        newTemp = newHead;
-        while(old != null)
+        cur = head;
+        while(cur != null)
         {
-            if(old.random == null)
-            {
-                newTemp.random = null;
-            }
-            else
-            {
-                if(map.ContainsKey(old.random))
-                {
-                    newTemp.random = map[old.random];
-                }
-            }
-            old = old.next;
-            newTemp = newTemp.next;
+            map[cur].next = cur.next == null ? null : map[cur.next];
+            map[cur].random = cur.random == null ? null : map[cur.random];
+            cur = cur.next;
         }
 
-        return newHead;
+        return map[head];
     }
 }
