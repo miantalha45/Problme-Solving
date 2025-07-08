@@ -15,37 +15,42 @@ public class Node {
 
 public class Solution {
     public Node CopyRandomList(Node head) {
-        if(head == null) return head;
+        if(head == null)
+            return head;
+        Dictionary<Node, Node> map = new();
+        Node newHead = new Node(head.val);
+        map[head] = newHead;
 
-        Node current = head;
-        while (current != null) {
-            Node cloned = new Node(current.val);
-            cloned.next = current.next;
-            current.next = cloned;
-            current = cloned.next;
+        Node newTemp = newHead;
+        Node old = head.next;
+        while(old != null)
+        {
+            Node n = new Node(old.val);
+            map[old] = n;
+            newTemp.next = n;
+            old = old.next;
+            newTemp = newTemp.next;
         }
 
-        current = head;
-        while (current != null) {
-            if (current.random != null) {
-                current.next.random = current.random.next;
+        old = head;
+        newTemp = newHead;
+        while(old != null)
+        {
+            if(old.random == null)
+            {
+                newTemp.random = null;
             }
-            current = current.next.next;
+            else
+            {
+                if(map.ContainsKey(old.random))
+                {
+                    newTemp.random = map[old.random];
+                }
+            }
+            old = old.next;
+            newTemp = newTemp.next;
         }
 
-        current = head;
-        Node pseudoHead = new Node(0);
-        Node copyCurrent = pseudoHead;
-
-        while (current != null) {
-            Node cloned = current.next;
-            copyCurrent.next = cloned;
-            copyCurrent = cloned;
-
-            current.next = cloned.next;
-            current = current.next;
-        }
-
-        return pseudoHead.next;
+        return newHead;
     }
 }
