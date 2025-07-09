@@ -11,50 +11,65 @@
  */
 public class Solution {
     public ListNode ReverseKGroup(ListNode head, int k) {
-        if(head == null) return  head;
+        ListNode prevTail = null;
+        ListNode nextHead = null;
 
+        ListNode slow = head;
+        ListNode fast = head;
 
-        ListNode dummy = new ListNode(0, head);
-        ListNode grpPrev = dummy;
+        for(int i = 0;i < k;i++)
+        {
+            if(fast != null)
+            {
+                fast = fast.next;
+            }
+            else
+            {
+                return head;
+            }
+        }
+
+        nextHead = fast;
 
         while(true)
         {
-            ListNode kth = GetKth(grpPrev, k);
-            if(kth == null)
+            ListNode temp = slow;
+            ListNode next = null;
+            ListNode prev = null;
+            while(temp != fast)
             {
-                break;
-            }
-            ListNode grpNext = kth.next;
-
-            ListNode prev = kth.next;
-            ListNode cur = grpPrev.next;
-            while(cur != grpNext)
-            {
-                ListNode temp = cur.next;
-                cur.next = prev;
-                prev = cur;
-
-                cur = temp;
+                next = temp.next;
+                temp.next = prev;
+                prev = temp;
+                temp = next;
             }
 
-            ListNode tmpNode = grpPrev.next;
-            grpPrev.next = kth;
-            grpPrev = tmpNode;
+            if(prevTail != null)
+            {
+                prevTail.next = prev;
+            }
+            else
+            {
+                head = prev;
+            }
+            prevTail = slow;
+            slow.next = nextHead;
+            slow = slow.next;
+            for(int i = 0;i < k;i++)
+            {
+                if(fast != null)
+                {
+                    fast = fast.next;
+                }
+                else
+                {
+                    return head;
+                }
+            }
 
+            nextHead = fast;
         }
 
-
-        return dummy.next;
-    }
-
-    private ListNode GetKth(ListNode cur, int k)
-    {
-        while(cur != null && k > 0)
-        {
-            cur = cur.next;
-            k--;
-        }
-
-        return cur;
+        return head;
     }
 }
