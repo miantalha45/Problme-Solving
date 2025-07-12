@@ -1,17 +1,14 @@
 public class Solution {
+    private Dictionary<int, int> memo = new Dictionary<int, int>();
+    
     public int ClimbStairs(int n) {
-        if(n<=2) return n;
-        int lastOne = 2;
-        int lastTwo = 1;
-        int allCount = 0;
-
-        for(int i = 3;i <= n;i++)
-        {
-            allCount = lastTwo + lastOne;
-            lastTwo = lastOne;
-            lastOne = allCount;
+        if(n < 3) return n;
+        
+        if(memo.ContainsKey(n)) {
+            return memo[n];
         }
-
-        return allCount;
+        
+        memo[n] = ClimbStairs(n - 1) + ClimbStairs(n - 2);
+        return memo[n];
     }
 }
