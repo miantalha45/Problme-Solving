@@ -11,10 +11,19 @@
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        if(lists.size() == 0)
+        if (lists.empty())
             return nullptr;
-        for(int i = 1;i < lists.size(); i++) {
-            lists[0] = merge(lists[0], lists[i]);
+
+        while (lists.size() > 1) {
+            vector<ListNode*> newLists;
+
+            for (int i = 0; i < lists.size(); i += 2) {
+                ListNode* l1 = lists[i];
+                ListNode* l2 = (i + 1 < lists.size()) ? lists[i + 1] : nullptr;
+                newLists.push_back(merge(l1, l2));
+            }
+
+            lists = newLists;
         }
 
         return lists[0];
@@ -23,9 +32,11 @@ public:
 private:
     ListNode* merge(ListNode* l1, ListNode* l2) {
         // l1 = [2], l2 = [1,3]
-        if(l1 == nullptr)  return l2;
-        if(l2 == nullptr)  return l1;
-        if(l1->val < l2->val) {
+        if (l1 == nullptr)
+            return l2;
+        if (l2 == nullptr)
+            return l1;
+        if (l1->val < l2->val) {
             l1->next = merge(l1->next, l2);
             return l1;
         }
