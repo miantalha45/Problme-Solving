@@ -24,12 +24,13 @@ private:
                   result);
 
         current.pop_back();
-
-        int nextIndex = index + 1;
-        while (nextIndex < candidates.size() &&
-               candidates[index] == candidates[nextIndex]) {
-            nextIndex++;
+        index++;
+        
+        while (index > 0 && index < candidates.size() &&
+               candidates[index - 1] == candidates[index]) {
+            index++;
         }
-        backtrack(candidates, nextIndex, current, target, result);
+
+        backtrack(candidates, index, current, target, result);
     }
 };
