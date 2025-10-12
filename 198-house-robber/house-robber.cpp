@@ -1,19 +1,20 @@
 class Solution {
 public:
     int rob(vector<int>& nums) {
-        vector<int> memo(nums.size(), -1);
-        return helper(0, nums, memo);
-    }
-    int helper(int i, vector<int>& nums, vector<int>& memo) {
-        if(i >= nums.size())
-            return 0;
+        int n = nums.size();
+        if (n == 0) return 0;
+        if(n == 1) return nums[0];
 
-        if(memo[i] != -1) {
-            return memo[i];
+        int prev2 = nums[0];
+        int prev1 = max(nums[0], nums[1]);
+
+        int allSum = 0;
+        for(int i = 2;i < n; i++) {
+            allSum = max(prev1, prev2 + nums[i]);
+            prev2 = prev1;
+            prev1 = allSum;
         }
-        int robCurrent = nums[i] + helper(i + 2, nums, memo);
-        int skipCurrent = helper(i + 1, nums, memo);
 
-        return memo[i] = max(robCurrent, skipCurrent);
+        return prev1;
     }
 };
