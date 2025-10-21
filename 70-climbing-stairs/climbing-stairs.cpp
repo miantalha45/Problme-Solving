@@ -6,16 +6,17 @@ public:
         if (n == 1)
             return 1;
 
-        vector<int> dp(n + 1, -1);
+        int prev1 = 2;
+        int prev2 = 1;
 
-        dp[0] = 0;
-        dp[1] = 1;
-        dp[2] = 2;
+        int currentStep = 0;
 
         for(int i = 3;i <= n; i++) {
-            dp[i] = dp[i-1] + dp[i-2];
+            currentStep = prev1 + prev2;
+            prev2 = prev1;
+            prev1 = currentStep;
         }
 
-        return dp[n];
+        return currentStep;
     }
 };
