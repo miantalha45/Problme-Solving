@@ -1,18 +1,13 @@
 class Solution {
 public:
+    unordered_map<int, int> map;
     int climbStairs(int n) {
-        if(n <= 2) return n;
+        if(n == 2) return 2;
+        if (n == 1)
+            return 1;
 
-        int oneStepBefore = 2;
-        int twoStepsBefore = 1;
-        int allWays = 0;
+        if(map.count(n) > 0)    return map[n];
 
-        for (int i = 3; i <= n; i++) {
-            allWays = oneStepBefore + twoStepsBefore;
-            twoStepsBefore = oneStepBefore;
-            oneStepBefore = allWays;
-        }
-
-        return allWays;
+        return map[n] = climbStairs(n - 1) + climbStairs(n - 2);
     }
 };
