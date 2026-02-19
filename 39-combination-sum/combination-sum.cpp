@@ -1,26 +1,26 @@
 class Solution {
 public:
+    vector<vector<int>> res;
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        vector<int> current;
-        vector<vector<int>> result;
-        backtrack(candidates, 0, current, target, result);
-        return result;
+        vector<int> path;
+        backtrack(0, candidates, 0, target, path);
+        return res;
     }
 
-private:
-    void backtrack(vector<int>& candidates, int index, vector<int>& current, int target, vector<vector<int>>& result) {
-        if (target == 0) {
-            result.push_back(current);
-            return;
-        }
-        if (target < 0 || index >= candidates.size()) {
+    void backtrack(int index, vector<int>& candidates, int total, int target, vector<int> path) {
+        if(target == total) {
+            res.push_back(path);
             return;
         }
 
-        current.push_back(candidates[index]);
-        backtrack(candidates, index, current, target - candidates[index], result);
-        current.pop_back();
+        if(index == candidates.size() || target < total) {
+            return;
+        }
 
-        backtrack(candidates, index + 1, current, target, result);
+        path.push_back(candidates[index]);
+        backtrack(index, candidates, total + candidates[index], target, path);
+
+        path.pop_back();
+        backtrack(index+1, candidates, total, target, path);
     }
 };
